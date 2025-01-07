@@ -122,7 +122,7 @@ Honeycomb adapts the chain-of-density prompting technique, originally designed f
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/honeycomb.git
+   git clone https://github.com/nickpending/honeycomb.git
    cd honeycomb
    ```
 
@@ -194,7 +194,7 @@ If you use Honeycomb in your research or projects, please cite:
   title = {Honeycomb: Chain-of-Density Security Log Analysis},
   author = {[Your Name]},
   year = {2024},
-  url = {https://github.com/yourusername/honeycomb}
+  url = {https://github.com/nickpending/honeycomb}
 }
 ```
 
