@@ -56,7 +56,6 @@ honeypot_data/
 *.pcap
 *.csv
 *.json
-*.yaml
 !config.yaml.example
 !tests/fixtures/*.json
 !tests/fixtures/*.yaml
