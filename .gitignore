@@ -56,7 +56,6 @@ honeypot_data/
 *.pcap
 *.csv
 *.json
-!config.yaml.example
 !tests/fixtures/*.json
 !tests/fixtures/*.yaml
 
@@ -66,7 +65,6 @@ honeypot_data/
 *.cert
 *.crt
 .env*
-config.yaml
 secrets/
 credentials/
 *.token
