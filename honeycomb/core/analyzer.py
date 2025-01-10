@@ -33,43 +33,44 @@ class LogAnalyzer:
         for i in range(0, len(logs), self.chunk_size):
             logger.debug(f"Processing chunk {i}")
             chunk = logs[i : i + self.chunk_size]
-            response_one = collect_log_metrics(chunk)
-            all_metrics.append(response_one)
-            logger.debug(f"Metrics {metrics_to_json(response_one)}")
+            # Decided to make this a non-AI task
+            metrics_results = collect_log_metrics(chunk)
+            all_metrics.append(metrics_results)
+            logger.debug(f"Metrics {metrics_to_json(metrics_results)}")
 
-            response_two = self.claude_client.prompt_chain(
+            routine_response = self.claude_client.prompt_chain(
                 None,
-                [chunk, response_one],
+                [chunk, metrics_results],
                 "Identify ROUTINE activity patterns",
-                self.config["prompt_chain_two"],
+                self.config["prompt_routine"],
             )
-            routines.append(response_two)
+            routines.append(routine_response)
 
-            response_three = self.claude_client.prompt_chain(
+            ioi_response = self.claude_client.prompt_chain(
                 None,
-                [chunk, response_one, response_two],
+                [chunk, metrics_results, routine_response],
                 "Identify indicators of interest",
-                self.config["prompt_chain_three"],
+                self.config["prompt_ioi"],
             )
-            interests.append(response_three)
+            interests.append(ioi_response)
 
         # Aggregate, deduplicate and summarize
-        response_five = self.claude_client.prompt_chain(
+        aggregate_metrics_response = self.claude_client.prompt_chain(
             "claude-3-5-haiku-20241022",
             [all_metrics],
             "Aggregate metrics",
-            self.config["prompt_chain_five"],
+            self.config["prompt_aggregate_metrics"],
         )
         response_six = self.claude_client.prompt_chain(
             None,
             [routines],
             "Deduplicate routine activities",
-            self.config["prompt_chain_six"],
+            self.config["prompt_deduplicate_routine"],
         )
 
         response_four = self.claude_client.prompt_chain(
             None,
-            [response_five, routines, interests],
+            [aggregate_metrics_response, routines, interests],
             "Summarize the data",
-            self.config["prompt_chain_four"],
+            self.config["prompt_summarize"],
         )
